@@ -33,4 +33,13 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/history", async (req, res) => {
+  try {
+    const messages = await Message.find().sort({ createdAt: 1 });
+    res.json(messages);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load history" });
+  }
+})
+
 module.exports = router;
