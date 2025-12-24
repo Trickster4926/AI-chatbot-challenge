@@ -18,7 +18,11 @@ model powered by **Ollama**.
 -   Max user input length: **500 characters**
 
 ------------------------------------------------------------------------
+## Clone/Pull Project
 
+- Clone or Pull project from [AI-chatbot-challenge Github](https://github.com/Trickster4926/AI-chatbot-challenge.git)
+
+------------------------------------------------------------------------
 ## Project Structure
 
     ollama-chat/
@@ -64,11 +68,9 @@ model powered by **Ollama**.
 Install from https://ollama.com
 
     ollama pull llama3
-    ollama run llama3
-
 ------------------------------------------------------------------------
 
-## Backend Setup
+## Backend Setup (Don't forget to add .env file)
 
     cd backend
     npm install
@@ -81,6 +83,8 @@ Install from https://ollama.com
     cd frontend
     npm install
     npm run dev
+
+then chat bot will available at localhost:3000
 
 ------------------------------------------------------------------------
 
