@@ -15,6 +15,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use("/api/chat", chatRoute);
 
-app.listen(5000, () => {
-  console.log("Backend running on http://localhost:5000");
+const PORT = process.env.PORT
+app.listen(PORT , () => {
+  console.log("Backend running on http://localhost:" + PORT);
 });

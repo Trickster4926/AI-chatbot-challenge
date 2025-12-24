@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const Message = require("../models/Message");
@@ -5,17 +6,20 @@ const Message = require("../models/Message");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
+  const BASE_OLLAMA_URL = process.env.OLLAMA_URL;
+  const OLLAMA_MODEL = process.env.OLLAMA_MODEL;
+
   const { message } = req.body;
     // console["log"](message);
   try {
     // Save user message
     await Message.create({ role: "user", content: message });
-
+    const requestURL = BASE_OLLAMA_URL + "/api/generate";
     // Call Ollama
     const ollamaRes = await axios.post(
-      "http://localhost:11434/api/generate",
+      requestURL ,
       {
-        model: "llama3",
+        model: OLLAMA_MODEL,
         prompt: message,
         stream: false
       }
