@@ -42,4 +42,14 @@ router.get("/history", async (req, res) => {
   }
 })
 
+router.delete("/clear" , async (req,res) =>{
+   try {
+    await Message.deleteMany({});
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Clear history error:", err.message);
+    res.status(500).json({ error: "Failed to clear chat history" });
+  }
+})
+
 module.exports = router;

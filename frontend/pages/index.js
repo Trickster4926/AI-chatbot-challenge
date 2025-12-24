@@ -73,7 +73,27 @@ export default function Chat() {
   return (
     <div style={styles.page}>
       <div style={styles.chatBox}>
+        <button onClick={async () => {
+          try {
+            const res = await fetch("http://localhost:5000/api/chat/clear", {
+              method: "DELETE"
+            });
+
+            if (!res.ok) {
+              throw new Error("Clear failed");
+            }
+
+            setMessages([]);
+            setWarning(null);
+            setError(null);
+          } catch (err) {
+            setWarning("Failed to clear chat history.");
+          }
+        }} style={styles.clearBtn}>
+          Clear Chat
+        </button>
         <div style={styles.header}>Ollama AI Chat</div>
+
 
         <div style={styles.messages} className="hide-scroll">
           {messages.map((m, i) => (
@@ -257,5 +277,18 @@ const styles = {
     border: "none",
     borderRadius: 6,
     cursor: "pointer"
-  }
+  },
+  clearBtn: {
+    alignSelf: "flex-end",
+    margin: "8px 8px 8px 8px",
+    padding: "6px 12px 6px 12px",
+    fontSize: 12,
+    background: "#1f2937",
+    color: "#e5e7eb",
+    border: "1px solid #374151",
+    borderRadius: 6,
+    cursor: "pointer"
+  },
+
+
 };
