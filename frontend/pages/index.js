@@ -5,13 +5,35 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
   const [error, setError] = useState(null);
+  const [warning, setWarning] = useState(null);
   const bottomRef = useRef(null);
 
   // Chat history load
   useEffect(() => {
-    fetch("http://localhost:5000/api/chat/history")
-      .then(res => res.json())
-      .then(data => setMessages(data));
+    const loadHistory = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/chat/history");
+
+        if (!res.ok) {
+          throw new Error("Failed to load chat history");
+        }
+
+        const data = await res.json();
+
+        if (Array.isArray(data)) {
+          setMessages(data);
+        } else {
+          setMessages([]);
+          setWarning("Chat history is unavailable.");
+        }
+      } catch (err) {
+        console.warn("History load error:", err.message);
+        setMessages([]);
+        setWarning("Old chat history could not be loaded.");
+      }
+    };
+
+    loadHistory();
   }, []);
 
   // Auto-scroll to lastest message
@@ -92,6 +114,11 @@ export default function Chat() {
           {error && !thinking && (
             <div style={{ ...styles.thinkingBar, color: "#ff6b6b" }}>
               {error}
+            </div>
+          )}
+          {warning && !error && (
+            <div style={{ ...styles.thinkingBar, color: "#fbbf24" }}>
+              ⚠️ {warning}
             </div>
           )}
 
